@@ -1,0 +1,72 @@
+.banner{
+	width:50%;
+}
+#tabs{
+	width:82%;
+	float:right;
+}
+#header_banner{
+	width:100%;
+	float:left;
+}
+#sidebar{
+	width:18%;
+	float:left;
+}
+
+#pantalla_principal {
+	min-height:100%;
+	position:relative;
+}
+
+#footer{
+	clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
+	background:#3ab4a6;
+}
+#table_footer{
+	width:30%;
+
+}
+
+#search{
+	float:right;
+	position:relative;
+	width:20%;
+}
+
+#user_area{
+	float:right;
+	position:relative;
+	width:15%;
+}
+
+#footer2 {
+	background:#ffab62;
+	width:100%;
+	height:100px;
+	position:absolute;
+	bottom:0;
+	left:0;
+	
+}
+#main_content{
+	float:left;
+	width:82%;
+}
+
+.icon{
+	width:25px;
+}
+
+.cover{
+	width:150px;
+}
+
+
+html, body, #pantalla_principal { height: 100%; }
+body > #pantalla_principal { height: auto; min-height: 100%; }
+#pantalla_principal { padding-bottom: 3em; }
