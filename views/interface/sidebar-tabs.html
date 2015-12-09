@@ -1,0 +1,27 @@
+<div style="float:right; width:100%;">
+  <div id="tabs" align="right">
+    <section id='hormenu' ng-controller="TabController as tab">
+      <ul>
+        <li ng-class="{ active:tab.isSet(1) }"><a href='#' ng-click="tab.setTab(1); mainTab();">Main</a></li>
+        <li ng-class="{ active:tab.isSet(2) }"><a href='#' ng-click="tab.setTab(2); listGenres();">Genres</a></li>
+        <li ng-class="{ active:tab.isSet(3) }"><a href='#' ng-click="tab.setTab(3); listCharacters();">Characters</a></li>
+        <li ><a href='#'>Editions</a></li>
+        <li ><a href='#'>News</a></li>
+        
+      </ul>
+    </section>
+  </div>
+</div>
+<div id="sidebar">
+  <div id="vermenu">
+      <ul>
+        <li><a href='#' ng-click="order('name'); showList();">Show By Name</a></li>
+        <li><a href='#' ng-click="order('views'); showList();">Popular</a></li>
+        <li><a href='#' ng-click="order('rating'); showList();">Qualifications</a></li>
+        <li><a href='#'>Top Searches</a></li>
+        <li><a href='#'>Recommended</a></li>
+        <li><a href='#' ng-click="showAdvancedSearch();">Advanced Search</a></li>
+      </ul>
+  </div>
+  
+</div>

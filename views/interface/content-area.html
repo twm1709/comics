@@ -1,0 +1,10 @@
+<div id="content" ng-show="viewComics" ng-controller="ComicsController">
+  <sidebar-tabs-area></sidebar-tabs-area>
+  <div id="main_content" >
+	<advanced-search ng-show="viewAdvancedSearch"></advanced-search>
+    <genre-list ng-show="viewGenres"></genre-list>
+    <comics-list ng-show="viewComicList"></comics-list>
+    <comic-info ng-show="viewInfo"></comic-info>
+  </div>
+</div>
+<user-profile ng-show="viewUserProfile"><user-profile>

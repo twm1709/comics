@@ -1,0 +1,15 @@
+<div>Ordered by {{predicate}} - {{getReverse()}}</div>
+<ul class="list-inline thumbs">
+  <li class="thumbnail" ng-repeat="comic in comics | orderBy:predicate:reverse | filter: getGenre()">
+    <a href="" ng-click ="setSelectedComic(comic)">
+      {{comic.name | uppercase}} #{{comic.issue}} <br>
+      <img ng-src="{{comic.img}}" class="cover"/><br>
+    </a>
+      Rating:
+      <ul class="list-inline thumbs" align='center'>
+        <li ng-repeat="i in getStarArray(comic.rating) track by $index" >
+          <img src='img/interface/star.png' class='star'/>
+        </li>
+      <ul>
+  </li>
+</ul>

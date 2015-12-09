@@ -1,0 +1,24 @@
+{{selected_comic}}
+<table class='comic_table' align='center'>
+	<tr id='comic_header'><td>{{selectedComic.name}}</td><td align='right'>#{{selectedComic.issue}}</td></tr>
+	<tr><td><img src='{{selectedComic.img}}'class='img_big'/></td><td valign='top'>{{selectedComic.summary}}</td></tr>
+	<tr><td>
+			<ul class="list-inline thumbs" align='center'>
+		        <li> Rating: </li>
+		        <li ng-repeat="i in getStarArray(selectedComic.rating) track by $index" >
+		          <img src='img/interface/star.png' class='star'/>
+		        </li>
+	      	<ul>
+      	</td><td></td>
+  	</tr><tr>
+    	<td>Genre: {{ selectedComic.genre}} </td>
+    	<td> 
+    		Created By:
+    		<ul>
+    			<li ng-repeat="c in selectedComic.creator" >
+		          {{c}}
+		        </li>
+    		</ul>
+    	</td>
+    </tr>
+</table>

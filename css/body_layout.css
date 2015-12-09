@@ -11,23 +11,28 @@ body {
 	margin:0;
 	padding:0;
 	height:100%;
+	background-color: #eeeeee;
 }
 #wrapper {
 	min-height:100%;
 	position:relative;
 }
 #header {
-	background:#ededed;
+	background:black;
 	padding:10px;
+	height:400px;
+	
 }
 #content {
 	padding-bottom:100px; /* Height of the footer element */
+	margin-bottom: 0px;
+	height:100%;
 }
 #footer {
 	background:#3ab4a6;
 	width:100%;
 	height:50px;
-	position:absolute;
+	position:fixed;
 	bottom:0;
 	left:0;
 }

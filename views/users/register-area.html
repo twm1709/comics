@@ -1,0 +1,10 @@
+<div id="register" ng-show = "registrar" ng-controller="RegisterController">
+	<form name="registerForm" ng-submit="crearUsuario()">
+	  <input type="text" placeholder="nombre" ng-model="nombre_input" required/>
+	  <input type="text" placeholder="usuario" ng-model="user_input" required/>
+	  <input type="password" placeholder="clave" ng-model="clave_input" required/>
+	  <input type="password" placeholder="Confirmar clave" ng-model="clave2_input" required/>
+	  <input type="submit" value="CREAR NUEVO" />
+	  <a href="" ng-click="volver()">Volver</a>
+	</form>
+</div>

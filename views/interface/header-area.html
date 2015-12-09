@@ -1,0 +1,26 @@
+<div id="header">
+  <div style="float:left; width:50%;">
+    <p id='title'>Comic Book App</p>
+  </div>
+  <div style="float:left; width:50%;">
+    <div id="user_area">
+      
+      <div class="dropdown">
+        <span id='user_welcome'>Welcome {{usuarioActivo.nombre}}</span>
+
+        <a href=""><img src="img/interface/user.jpg" class="icon"/></a>
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><img class='icon' src="img/interface/gear.png" id="dagger" /></button>
+        <ul class="dropdown-menu">
+          <li><a href="" ng-show="isAuthorized()">EDIT COMICS</a></li>
+          <li><a href="" ng-show="isAuthorized()">EDIT USERS</a></li>
+          <li><a href="" ng-click="goToProfile()">MY PROFILE</a></li>
+          <li><a href="" ng-click="logout()">LOGOUT</a></li>
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+  <div id="header_banner" align='center'>
+    <img src="img/ad/banner.jpg" class="banner"/>
+  </div>
+</div>

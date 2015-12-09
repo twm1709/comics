@@ -1,0 +1,20 @@
+<div align='center'>
+	<form>
+		<p>View/Edit Profile</p>
+		<table>
+			<tr><td>First Name: </td><td><input type='text' ng-model='usuarioActivo.nombre'/></td></tr>
+			<tr><td>Last Name: </td><td><input type='text' ng-model='usuarioActivo.apellido'/></td></tr>
+			<tr><td>Username: </td><td><input type='text' ng-model='usuarioActivo.user'/></td></tr>
+			<tr><td>Password: </td><td><input type='password' ng-model='usuarioActivo.password'/></td></tr>
+			<tr><td>Password Confirm: </td><td><input type='password' ng-model='usuarioActivo.password'/></td></tr>
+			<tr ng-show="isAuthorized()"><td> 
+				Is Admin
+				</td><td>
+				<select ng-model='usuarioActivo.admin'>
+					<option value='0'> No </option>
+					<option value='1'> Yes </option>
+				</select>
+			</td></tr>
+			<tr><td><a href="" ng-click="goToComics()"> Back to Comics</a></td><td><input type='submit' value='Save Changes'/></td></tr>
+	</form>
+</div>

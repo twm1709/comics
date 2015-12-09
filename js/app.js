@@ -1,31 +1,36 @@
 (function() {
-  var app = angular.module('app', []);
+  var app = angular.module('app', ['ngRoute', 'comics-directives']);
   
-  //Datos de la base
-  var usuarios = [
-  					{nombre: 'juan', user: 'admin', password: 'admin0', admin: 1}, 
-  					{nombre: 'pedro', user: 'user', password: '123', admin: 1}
-				];
-
-  var comics = [
-            {nombre: 'Amazing Fantasy', numero: 15, genero: 'Super-Heroes', creador: ['Stan Lee', 'Steve Ditko'], img: "img/comics/Amazing_Fantasy_Vol_1_15.jpg", cal: 4}, 
-            {nombre: 'Action Comics', numero: 1, genero: 'Super-Heroes', creador: ['Jerry Siegel', 'Joe Schuster'], img: "img/comics/Action_Comics_1.jpg", cal: 3},
-            {nombre: 'Amazing Spider-Man', numero: 33, genero: 'Super-Heroes', creador: ['Stan Lee', 'Steve Ditko'], img: "img/comics/Amazing_Spider-Man_Vol_1_33.jpg", cal: 3},
-            {nombre: 'Detective Comics', numero: 27, genero: 'Super-Heroes', creador: ['Bill Finger', 'Bob Kane'], img: "img/comics/detective-comics27.jpg", cal: 5},
-            {nombre: 'Tomb Of Dracula', numero: 1, genero: 'Terror', creador: ['Bram Stoker'], img: "img/comics/tomb_of_dracula.jpg", cal: 2}
-        ];
-
-
-  var crearBase = function(){
-      if (!localStorage.usuarios){
-        localStorage.usuarios = JSON.stringify(usuarios);
+  var createDB = function(){
+      if (!localStorage.users){
+        localStorage.users = JSON.stringify(usuarios);
         localStorage.comics = JSON.stringify(comics);
+        localStorage.genres = JSON.stringify(genres);
+        localStorage.characters = JSON.stringify(characters);
       }
   };
-  crearBase();
+  createDB();
+
+
+  angular.module('app')
+  .config(function($routeProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: '/views/interface/main-area.html'
+      })
+      .when('/login', {
+        templateUrl: '/views/users/login-area.html',
+      })
+      .when('/404', {
+        templateUrl: '/views/404.html'
+      })
+      .otherwise({
+        redirectTo: '/404'
+      });
+  });
 
   //Servicios
-  var verificarUsuario = function(){
+  var getUser = function(){
 
     if (!sessionStorage.usuario){
         return {logueado: false, info: ""};
@@ -35,29 +40,112 @@
       }
   };
 
-  var obtenerComics= function(){
+  var getComics= function(){
     return JSON.parse(localStorage.comics);
   };
 
-  app.value('usuario', verificarUsuario());
-  app.value('comics', obtenerComics());
-  
+  var getGenres= function(){
+    return JSON.parse(localStorage.genres);
+  };
 
-  //Filtros
-  angular.module('app').filter('stars', function() {
-                              return function(cant) {
-                                var aux = "";
-                                for (i = 0; i < cant; i++)
-                                  aux += "<img src='img/interface/stars.png'/>";
-                                
-                                aux = "Rating: " + cant;
-                                return aux;
-                              };
-                            });
-  //Controladores
+  var getCharacters= function(){
+    return JSON.parse(localStorage.characters);
+  };
+
+  app.value('usuario', getUser());
+  app.value('comics', getComics());
+  app.value('genres', getGenres());
+  app.value('characters', getCharacters());
+
+  var createDB = function(){
+      if (!localStorage.users){
+        localStorage.users = JSON.stringify(usuarios);
+        localStorage.comics = JSON.stringify(comics);
+        localStorage.genres = JSON.stringify(genres);
+      }
+  };
+  createDB();
+
+  app.controller('LoginController', function($scope,$rootScope, usuario){
+                    $scope.message = "";    
+                    $rootScope.logueado = usuario.logueado;
+                    $rootScope.registrar = false;
+
+                    $scope.login = function(){
+                      lista_usuarios = JSON.parse(localStorage.users);
+                      usuario_sel = lista_usuarios.filter(function(obj) { return obj.user == $scope.user_input; });
+                      if (usuario_sel.length > 0){
+                        usuario_sel = usuario_sel[0];
+                        if (usuario_sel.password == $scope.clave_input){
+                          sessionStorage.usuario = JSON.stringify(usuario_sel);
+                          
+                          $rootScope.usuarioActivo = usuario_sel;
+                          //usuario.info = usuario_sel;
+                          $rootScope.logueado = true;
+                          $scope.user_input = "";
+                          $scope.clave_input = "";
+                        }
+                        else{
+                          $scope.message = "Clave incorrecta";
+                        }
+                      }
+                      else{
+                        $scope.message = "Usuario no existe";
+                      }
+                    };
+
+                    $scope.register = function(){
+                      $rootScope.registrar = !$rootScope.registrar;
+                      $scope.user_input = "";
+                      $scope.clave_input = "";
+                    };
+
+                  });
+  app.controller('RegisterController', function($scope, $rootScope, usuario){
+          $scope.user_input = "";
+          $scope.clave_input = "";
+          $scope.nombre_input = "";
+          $scope.clave2_input = "";
+          $scope.message = "";
+
+          $scope.volver = function(){
+            $rootScope.registrar = !$rootScope.registrar;
+          };
+
+          $scope.crearUsuario = function(){
+            if ($scope.clave_input == $scope.clave2_input){
+              lista_usuarios = JSON.parse(localStorage.users);
+              usuario_sel = lista_usuarios.filter(function(obj) { return obj.user == $scope.user_input; });
+              
+              if (usuario_sel.length == 0){
+                usuario_nuevo = {nombre: $scope.nombre_input, user: $scope.user_input, password: $scope.clave_input, admin: 0};
+                lista_usuarios.push(usuario_nuevo);
+                localStorage.users = JSON.stringify(lista_usuarios);
+                $scope.message = "Usuario agregado";
+                $scope.user_input = "";
+                $scope.clave_input = "";
+                $scope.clave2_input = "";
+                $scope.nombre_input = "";
+                
+              }
+              else{
+                $scope.message = "Usuario ya existe";
+              }
+            }
+            else{
+              $scope.message = "Claves no coinciden";
+            }
+
+          };
+
+        });
+
   app.controller('MainController', function($scope, $rootScope, usuario){
     $rootScope.logueado = usuario.logueado;
     $rootScope.usuarioActivo = usuario.info;
+    $scope.viewUserProfile = false;
+    $scope.viewComics = true;
+    
     if ($rootScope.usuarioActivo)
       $scope.usuario_nombre = $rootScope.usuarioActivo.nombre;
     $scope.logout = function(){
@@ -65,85 +153,131 @@
       $rootScope.logueado = false;
     };
 
+    $scope.isAuthorized = function(){
+      if ($rootScope.usuarioActivo.admin == 1)
+        return true;
+      else
+        return false;
+    };
+    
+    
+    $scope.goToProfile = function(){
+      $scope.viewUserProfile = true;
+      $scope.viewComics = false;
+    };
+
+    $scope.goToComics = function(){
+      $scope.viewUserProfile = false;
+      $scope.viewComics = true;
+    };
+
   });
 
-  app.controller('ComicsController', function($scope, comics){
+  app.controller('ComicsController', function($scope, comics, genres, characters, orderByFilter){
     $scope.comics = comics;
-  });
-
-  app.controller('RegisterController', function($scope, $rootScope, usuario){
-    $scope.user_input = "";
-    $scope.clave_input = "";
-    $scope.nombre_input = "";
-    $scope.clave2_input = "";
-    $scope.message = "";
-
-    $scope.volver = function(){
-      $rootScope.registrar = !$rootScope.registrar;
+    $scope.viewAdvancedSearch = false;
+    $scope.viewUserProfile = false;
+    $scope.viewGenres = false;
+    $scope.viewComicList = true;
+    $scope.viewInfo = false;
+    $scope.genres = genres;
+    $scope.getStarArray= function(stars){
+      return new Array(stars);
     };
 
-    $scope.crearUsuario = function(){
-      if ($scope.clave_input == $scope.clave2_input){
-        lista_usuarios = JSON.parse(localStorage.usuarios);
-        usuario_sel = lista_usuarios.filter(function(obj) { return obj.user == $scope.user_input; });
-        
-        if (usuario_sel.length == 0){
-          usuario_nuevo = {nombre: $scope.nombre_input, user: $scope.user_input, password: $scope.clave_input, admin: 0};
-          lista_usuarios.push(usuario_nuevo);
-          localStorage.usuarios = JSON.stringify(lista_usuarios);
-          $scope.message = "Usuario agregado";
-          $scope.user_input = "";
-          $scope.clave_input = "";
-          $scope.clave2_input = "";
-          $scope.nombre_input = "";
+    $scope.predicate = 'name';
+    $scope.reverse = false;
+    $scope.order = function(predicate) {
+      $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+      $scope.predicate = predicate;
+    };
+    
+    $scope.selected_genre = "";
+    $scope.getGenre = function(){
+      return $scope.selected_genre;
+    };
+
+    $scope.setGenre= function(genre){
+      $scope.selected_genre = genre;
+      $scope.viewComicList = true;
+      $scope.viewGenres = false;
+      $scope.viewAdvancedSearch = false;
+      $scope.viewInfo = false;
+    }
+    $scope.listGenres = function(){
+      $scope.viewGenres = true;
+      $scope.viewComicList = false;
+      $scope.viewInfo = false;
+      $scope.viewAdvancedSearch = false;
+    }
+    $scope.mainTab = function(){
+      $scope.showList();
+      $scope.setGenre('');
+    }
+    $scope.showList = function(){
+      $scope.viewGenres = false; 
+      $scope.viewComicList = true;
+      $scope.viewInfo = false;
+      $scope.viewAdvancedSearch = false;
+    }
+    $scope.getReverse = function(){
+      if (!$scope.reverse)
+        return 'Ascending';
+      else
+        return 'Descending';
+
+    };
+    $scope.setSelectedComic = function(comic){
+      $scope.selectedComic = comic;
+      $scope.viewInfo = true;
+      $scope.viewComicList = false;
+      $scope.viewGenres = false;
+      $scope.viewAdvancedSearch = false;
+      $scope.selectedComic.views++;
+    };
+
+    $scope.getComicName = function(){
+      return $scope.selectedComic.name;
+    };
+
+    $scope.showAdvancedSearch = function(){
+      $scope.viewInfo = false;
+      $scope.viewComicList = false;
+      $scope.viewGenres = false;
+      $scope.viewAdvancedSearch = true;
+    };
+
+    $scope.listCharacters = function(){
+      
+    };
+
+  });
+
+  app.controller('TabController', function(){
+    this.tab = 1;
+
+    this.setTab = function(newValue){
+      this.tab = newValue;
+    };
+
+    this.isSet = function(tabName){
+      return this.tab === tabName;
+    };
+  });
+
+  //Filtros
+  app.filter('stars', 
+      function() {
+        return function(cant) {
+          var aux = "";
+          for (i = 0; i < cant; i++)
+            aux += "<img src='img/interface/stars.png'/>";
           
-        }
-        else{
-          $scope.message = "Usuario ya existe";
-        }
-      }
-      else{
-        $scope.message = "Claves no coinciden";
-      }
-
-    };
-
-  });
+          aux = "Rating: " + cant;
+          return aux;
+        };
+      });
   
-  app.controller('LoginController', function($scope,$rootScope, usuario){
-    $scope.message = "";    
-    $rootScope.logueado = usuario.logueado;
-    $rootScope.registrar = false;
-
-    $scope.login = function(){
-      lista_usuarios = JSON.parse(localStorage.usuarios);
-      usuario_sel = lista_usuarios.filter(function(obj) { return obj.user == $scope.user_input; });
-      if (usuario_sel.length > 0){
-        usuario_sel = usuario_sel[0];
-        if (usuario_sel.password == $scope.clave_input){
-          sessionStorage.usuario = JSON.stringify(usuario_sel);
-          
-          $rootScope.usuarioActivo = usuario_sel;
-          //usuario.info = usuario_sel;
-          $rootScope.logueado = true;
-          $scope.user_input = "";
-          $scope.clave_input = "";
-        }
-        else{
-          $scope.message = "Clave incorrecta";
-        }
-      }
-      else{
-        $scope.message = "Usuario no existe";
-      }
-    };
-
-    $scope.register = function(){
-      $rootScope.registrar = !$rootScope.registrar;
-      $scope.user_input = "";
-      $scope.clave_input = "";
-    };
-
-  });
+  
 
 })();
