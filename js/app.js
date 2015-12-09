@@ -1,71 +1,6 @@
 (function() {
-  var app = angular.module('app', ['ngRoute', 'comics-directives']);
+  var app = angular.module('app', ['ngRoute','comics-directives', 'comics-services', 'comics-filters', 'comics-routes']);
   
-  var createDB = function(){
-      if (!localStorage.users){
-        localStorage.users = JSON.stringify(usuarios);
-        localStorage.comics = JSON.stringify(comics);
-        localStorage.genres = JSON.stringify(genres);
-        localStorage.characters = JSON.stringify(characters);
-      }
-  };
-  createDB();
-
-
-  angular.module('app')
-  .config(function($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: '/views/interface/main-area.html'
-      })
-      .when('/login', {
-        templateUrl: '/views/users/login-area.html',
-      })
-      .when('/404', {
-        templateUrl: '/views/404.html'
-      })
-      .otherwise({
-        redirectTo: '/404'
-      });
-  });
-
-  //Servicios
-  var getUser = function(){
-
-    if (!sessionStorage.usuario){
-        return {logueado: false, info: ""};
-      }
-      else{
-        return {logueado: true, info: JSON.parse(sessionStorage.usuario)};
-      }
-  };
-
-  var getComics= function(){
-    return JSON.parse(localStorage.comics);
-  };
-
-  var getGenres= function(){
-    return JSON.parse(localStorage.genres);
-  };
-
-  var getCharacters= function(){
-    return JSON.parse(localStorage.characters);
-  };
-
-  app.value('usuario', getUser());
-  app.value('comics', getComics());
-  app.value('genres', getGenres());
-  app.value('characters', getCharacters());
-
-  var createDB = function(){
-      if (!localStorage.users){
-        localStorage.users = JSON.stringify(usuarios);
-        localStorage.comics = JSON.stringify(comics);
-        localStorage.genres = JSON.stringify(genres);
-      }
-  };
-  createDB();
-
   app.controller('LoginController', function($scope,$rootScope, usuario){
                     $scope.message = "";    
                     $rootScope.logueado = usuario.logueado;
@@ -100,7 +35,8 @@
                       $scope.clave_input = "";
                     };
 
-                  });
+  });
+
   app.controller('RegisterController', function($scope, $rootScope, usuario){
           $scope.user_input = "";
           $scope.clave_input = "";
@@ -138,7 +74,7 @@
 
           };
 
-        });
+  });
 
   app.controller('MainController', function($scope, $rootScope, usuario){
     $rootScope.logueado = usuario.logueado;
@@ -148,6 +84,17 @@
     
     if ($rootScope.usuarioActivo)
       $scope.usuario_nombre = $rootScope.usuarioActivo.nombre;
+    
+    var createDB = function(){
+      if (!localStorage.users){
+        localStorage.users = JSON.stringify(usuarios);
+        localStorage.comics = JSON.stringify(comics);
+        localStorage.genres = JSON.stringify(genres);
+        localStorage.characters = JSON.stringify(characters);
+      }
+      alert('wei');
+    };
+    
     $scope.logout = function(){
       sessionStorage.clear();
       $rootScope.logueado = false;
@@ -248,7 +195,7 @@
     };
 
     $scope.listCharacters = function(){
-      
+
     };
 
   });
@@ -264,20 +211,6 @@
       return this.tab === tabName;
     };
   });
-
-  //Filtros
-  app.filter('stars', 
-      function() {
-        return function(cant) {
-          var aux = "";
-          for (i = 0; i < cant; i++)
-            aux += "<img src='img/interface/stars.png'/>";
-          
-          aux = "Rating: " + cant;
-          return aux;
-        };
-      });
-  
   
 
 })();
