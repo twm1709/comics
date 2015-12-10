@@ -1,5 +1,5 @@
 <div id='profileArea' align='center'>
-	<form ng-submit="editUser()">
+	<form name='profileForm' ng-submit="editUser()">
 		<p>View/Edit Profile</p>
 		<table>
 			<tr><td>First Name: </td><td><input type='text' ng-model='usuarioActivo.nombre'/></td></tr>
@@ -9,7 +9,10 @@
 			<tr><td>Password Confirm: </td><td><input type='password' ng-model='usuarioActivo.password'/></td></tr>
 			<tr><td>Profile Picture: </td><td><input type='text' ng-model='usuarioActivo.img'/></td></tr>
 			<tr><td>Preview: </td><td><img style='width:75px;'src="{{usuarioActivo.img}}"/></td></tr>
-			<tr><td><a href="" ng-click="goToComics()"> Back to Comics</a></td><td><input type='submit' value='Save Changes'/></td></tr>
+			<tr>
+				<td><a href="" ng-click="goToComics()"> Back to Comics</a></td>
+				<td><input type="submit" class="btn btn-primary" value='Save Changes'/></td>
+			</tr>
 		</table>
 	</form>
 </div>

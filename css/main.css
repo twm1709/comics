@@ -58,6 +58,8 @@ html,body { height:100%; }
 }
 #table_footer{
 	width:30%;
+	font-weight: bold;
+	margin-top:10px;
 
 }
 

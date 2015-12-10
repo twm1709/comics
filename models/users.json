@@ -1,4 +1,4 @@
 [
-	{"nombre": "juan", "apellido": "gomez", "user": "admin", "password": "admin0", "admin": 1}, 
-	{"nombre": "pedro", "apellido": "ruiz", "user": "user", "password": "123", "admin": 0}
+	{"id": 1, "nombre": "juan", "apellido": "gomez", "user": "admin", "password": "admin0", "admin": 1, "img": "img/interface/user.jpg"}, 
+	{"id": 2, "nombre": "pedro", "apellido": "ruiz", "user": "user", "password": "123", "admin": 0, "img": "img/interface/user.jpg"}
 ]

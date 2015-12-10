@@ -11,22 +11,28 @@
       }
   };
 
-  var getComics= function(){
-    return comics;
-  };
-
-  var getGenres= function(){
-    return genres;
-  };
-
-  var getCharacters= function(){
-    return characters;
-  };
-
   app.value('usuario', getUser());
-  app.value('comics', getComics());
-  app.value('genres', ['Super-Heroes', 'Horror', 'Sci-Fi']);
-  app.value('characters', getCharacters());
+  app.value('appData', {comics: [], genres: [], characters: []});
+  /*
+  angular.module('app')
+    .factory('answer', function($q, $http, url) {
+      return function(user) {
+        var data = {
+          nombre: 'juan', 
+          apellido: 'gomez', 
+          user: 'admin', 
+          password: 'admin0', 
+          admin: user.admin, 
+          img: "img/interface/user.jpg"
+        };
+        return $http.post(url + '/answers', data)
+          .then(function(response) {
+            return response.data;
+          },function(response) {
+            return $q.reject(response.status + " " + response.data.error);
+          });
+      };
+    });
 
-
+  */
 })();

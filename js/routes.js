@@ -5,6 +5,9 @@
    app.config(function($routeProvider) {
 	    $routeProvider
 	      .when('/', {
+	        redirectTo: '/main'
+	      })
+	      .when('/main', {
 	        templateUrl: '/views/interface/main-area.html'
 	      })
 	      .when('/login', {

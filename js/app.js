@@ -2,7 +2,7 @@
   var app = angular.module('app', ['ngRoute','comics-directives', 'comics-services', 'comics-filters', 'comics-routes']);
   
 
-  app.controller('MainController', function($scope, $rootScope, usuario, genres){
+  app.controller('MainController', function($scope, $rootScope, usuario, appData, $http){
     $rootScope.logueado = usuario.logueado;
     $rootScope.usuarioActivo = usuario.info;
     $scope.viewUserProfile = false;
@@ -11,16 +11,40 @@
     if ($rootScope.usuarioActivo)
       $scope.usuario_nombre = $rootScope.usuarioActivo.nombre;
     
-    var createDB = function(){
-      if (!localStorage.users){
-        localStorage.users = JSON.stringify(usuarios);
-        localStorage.comics = JSON.stringify(comics);
-        localStorage.genres = JSON.stringify(genres);
-        localStorage.characters = JSON.stringify(characters);
-      }
-    };
-    createDB();
-    
+    var initServices = function(){
+      $http.get('models/genres.json')
+        .success(function(data){
+          appData.genres = data;
+          
+      });
+      $http.get('models/comics.json')
+        .success(function(data){
+          appData.comics = data;
+          if (!localStorage.comics)
+            localStorage.comics = JSON.stringify(appData.comics);
+      });
+      $http.get('models/characters.json')
+        .success(function(data){
+          appData.characters = data;
+          
+      });
+
+      $http.get('models/users.json')
+        .success(function(data){
+          
+          if (!localStorage.users){
+            appData.users = data;
+            localStorage.users = JSON.stringify(appData.users);
+          }
+          else{
+            appData.users = JSON.parse(localStorage.users);
+          }
+            
+      });
+
+    }
+    initServices();
+
     $scope.logout = function(){
       sessionStorage.clear();
       $rootScope.logueado = false;
@@ -44,23 +68,42 @@
       $scope.viewComics = true;
     };
 
+    $scope.editUsers = function(){
+      var user_data = {
+        nombre: usuarioActivo.nombre, 
+        apellido: usuarioActivo.apellido, 
+        user: usuarioActivo.user, 
+        password: usuarioActivo.password, 
+        admin: usuarioActivo.admin, 
+        img: usuarioActivo.img
+      };
+      var id = $rootScope.usuarioActivo.id;
+      for (var i = 0; i < appData.users.length; i++) {
+          if (appData.users[i].id === id) {
+              appData.users[i] = user_data;
+              break;
+          }
+      }
+      localStorage.users = appData.users;
+
+     
+    };
+
   });
 
-  app.controller('LoginController', function($scope,$rootScope, usuario){
+  app.controller('LoginController', function($scope,$rootScope, usuario, appData){
                     $scope.message = "";    
                     $rootScope.logueado = usuario.logueado;
                     $rootScope.registrar = false;
 
                     $scope.login = function(){
-                      lista_usuarios = JSON.parse(localStorage.users);
-                      usuario_sel = lista_usuarios.filter(function(obj) { return obj.user == $scope.user_input; });
+                      //var lista_usuarios = JSON.parse(localStorage.users);
+                      usuario_sel = appData.users.filter(function(obj) { return obj.user == $scope.user_input; });
                       if (usuario_sel.length > 0){
                         usuario_sel = usuario_sel[0];
                         if (usuario_sel.password == $scope.clave_input){
                           sessionStorage.usuario = JSON.stringify(usuario_sel);
-                          
                           $rootScope.usuarioActivo = usuario_sel;
-                          //usuario.info = usuario_sel;
                           $rootScope.logueado = true;
                           $scope.user_input = "";
                           $scope.clave_input = "";
@@ -82,7 +125,7 @@
 
   });
 
-  app.controller('RegisterController', function($scope, $rootScope, usuario){
+  app.controller('RegisterController', function($scope, $rootScope, usuario, appData){
           $scope.user_input = "";
           $scope.clave_input = "";
           $scope.nombre_input = "";
@@ -98,13 +141,24 @@
           $scope.crearUsuario = function(){
             
               if ($scope.clave_input == $scope.clave2_input){
-                lista_usuarios = JSON.parse(localStorage.users);
-                usuario_sel = lista_usuarios.filter(function(obj) { return obj.user == $scope.user_input; });
+                usuario_sel = appData.users
+                                .filter(function(obj) { 
+                                  return obj.user == $scope.user_input; 
+                                });
                 
                 if (usuario_sel.length == 0){
-                  usuario_nuevo = {nombre: $scope.nombre_input, apellido: $scope.apellido_input, user: $scope.user_input, password: $scope.clave_input, admin: 0, img: '/img/interface/user.jpg'};
-                  lista_usuarios.push(usuario_nuevo);
-                  localStorage.users = JSON.stringify(lista_usuarios);
+                  usuario_nuevo = {
+                      id:  appData.users[appData.users.length - 1].id + 1,
+                      nombre: $scope.nombre_input, 
+                      apellido: $scope.apellido_input, 
+                      user: $scope.user_input, 
+                      password: $scope.clave_input, 
+                      admin: 0, 
+                      img: '/img/interface/user.jpg'
+                    };
+
+                  appData.users.push(usuario_nuevo);
+                  localStorage.users = JSON.stringify(appData.users);
                   $scope.message = "User Added";
                   $scope.user_input = "";
                   $scope.clave_input = "";
@@ -127,15 +181,16 @@
 
   });
 
-  app.controller('ComicsController', function($scope, comics, genres, characters, orderByFilter){
-    $scope.comics = comics;
+  app.controller('ComicsController', function($scope, appData, orderByFilter){
+    $scope.comics = appData.comics;
+    $scope.genres = appData.genres;
+    $scope.characters = appData.characters;
     $scope.viewAdvancedSearch = false;
     $scope.viewUserProfile = false;
     $scope.viewGenres = false;
     $scope.viewComicList = true;
     $scope.viewInfo = false;
-    $scope.genres = genres;
-    $scope.characters = characters;
+    
 
     $scope.getStarArray= function(stars){
       return new Array(stars);
@@ -233,8 +288,8 @@
     $scope.addComic = function(){
       var newId = comics[comics.length - 1].id + 1;
       var newComic = {id: newId, name: $scope.newComicName, issue: $scope.newComicIssue, genre: $scope.newComicGenre, creator: $scope.newComicCreator, img: $scope.img, rating: $scope.rating, views: 0, summary: $scope.newComicSummary, characters: $scope.newComicCharacters};
-      comics.push(newComic);
-      localStorage.comics = JSON.stringify(comics);
+      appData.comics.push(newComic);
+      //localStorage.comics = JSON.stringify(appData.comics);
       $scope.message = "Comic added";
     };
 
