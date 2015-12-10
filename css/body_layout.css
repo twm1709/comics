@@ -11,7 +11,7 @@ body {
 	margin:0;
 	padding:0;
 	height:100%;
-	background-color: #eeeeee;
+	
 }
 #wrapper {
 	min-height:100%;
@@ -20,13 +20,15 @@ body {
 #header {
 	background:black;
 	padding:10px;
-	height:400px;
+	padding-bottom: 0px;
+	overflow: auto;
 	
 }
 #content {
 	padding-bottom:100px; /* Height of the footer element */
 	margin-bottom: 0px;
 	height:100%;
+	
 }
 #footer {
 	background:#3ab4a6;

@@ -1,10 +1,30 @@
-<div id="register" ng-show = "registrar" ng-controller="RegisterController">
-	<form name="registerForm" ng-submit="crearUsuario()">
-	  <input type="text" placeholder="nombre" ng-model="nombre_input" required/>
-	  <input type="text" placeholder="usuario" ng-model="user_input" required/>
-	  <input type="password" placeholder="clave" ng-model="clave_input" required/>
-	  <input type="password" placeholder="Confirmar clave" ng-model="clave2_input" required/>
-	  <input type="submit" value="CREAR NUEVO" />
-	  <a href="" ng-click="volver()">Volver</a>
+<div id="register" ng-show = "registrar" ng-controller="RegisterController" >
+	<form name="registerForm" ng-submit="crearUsuario(registerForm.$valid)" novalidate>
+	  <h5><strong> Register your User </strong></h5>
+	  <div class="form-group">
+	  	<input type="text" class="form-control" name="firstname" placeholder="First Name" ng-model="nombre_input" required />
+	  	<p ng-show="registerForm.firstname.$invalid && !registerForm.firstname.$pristine" class="help-block">Your First Name is required.</p>
+	  </div>
+	  <div class="form-group">
+	  	<input type="text" class="form-control" name="lastname" placeholder="Last Name" ng-model="apellido_input" required/>
+	  	<p ng-show="registerForm.lastname.$invalid && !registerForm.lastname.$pristine" class="help-block">Your Last Name is required.</p>
+	  </div>
+	  <div class="form-group">
+	  	<input type="text" class="form-control" name="username" placeholder="Username" ng-model="user_input" ng-pattern="/^[a-zA-Z0-9]+$/" required='true'/>
+	  	<p ng-show="registerForm.username.$invalid && !registerForm.username.$pristine" class="help-block">Please enter an alphanumeric User Name.</p>
+	  </div>
+	  <div class="form-group">
+	  	<input type="password" class="form-control" name="password" placeholder="Password" ng-model="clave_input" ng-pattern="/^[a-zA-Z0-9]+$/" required='true' ng-minlength='7'/>
+	  	<p ng-show="registerForm.password.$invalid && !registerForm.password.$pristine" class="help-block">Please enter an alphanumeric Password.</p>
+	  	<p ng-show="registerForm.password.$error.minlength && !registerForm.password.$pristine" class="help-block">At least 7 characters.</p>
+	  </div>
+	  <div class="form-group">
+	  	<input type="password" class="form-control" name="password2" placeholder="Repeat Password" ng-model="clave2_input" required='true' ng-pattern="/[a-zA-Z0-9\.]*/"/>
+	  	<p ng-show="clave_input != clave2_input" class="help-block">Passwords don't match.</p>
+	  </div>
+	  <div class="form-group">
+	  	<button type="submit" class="btn btn-primary" ng-disabled="registerForm.$invalid">CREATE NEW</button>
+	  </div>
+	  <div class="form-group"><a href="" ng-click="volver()">Go Back</a></div>
 	</form>
 </div>

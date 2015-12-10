@@ -12,20 +12,20 @@
   };
 
   var getComics= function(){
-    return JSON.parse(localStorage.comics);
+    return comics;
   };
 
   var getGenres= function(){
-    return JSON.parse(localStorage.genres);
+    return genres;
   };
 
   var getCharacters= function(){
-    return JSON.parse(localStorage.characters);
+    return characters;
   };
 
   app.value('usuario', getUser());
   app.value('comics', getComics());
-  app.value('genres', getGenres());
+  app.value('genres', ['Super-Heroes', 'Horror', 'Sci-Fi']);
   app.value('characters', getCharacters());
 
 

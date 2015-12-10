@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/body_layout.css">
     <link rel="stylesheet" href="css/hm/styles.css">
+    <link rel="stylesheet" href="css/hm2/styles.css">
     <link rel="stylesheet" href="css/vm/styles.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -21,14 +22,16 @@
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-route.js"></script>
     <script type="text/javascript" src="js/data.js"></script>
+    
     <script type="text/javascript" src="js/filters.js"></script>
     <script type="text/javascript" src="js/routes.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/directives.js"></script>
     <script type="text/javascript" src="js/services.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
+    
   </head>
 
-  <body ng-controller="MainController" data-ng-init="createDB()">
+  <body ng-controller="MainController" >
     {{message}}
     <main-area ng-show="logueado"></main-area>
     <login-area ng-show="!logueado"></login-area>

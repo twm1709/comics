@@ -1,4 +1,5 @@
 html,body { height:100%; }
+
 .banner{
 	width:100%;
 }
@@ -6,7 +7,25 @@ html,body { height:100%; }
 	width:100%;
 	float:left;
 }
+#login{
+	background:#3ab4a6;
+	padding:30px;
+	width:300px;
+	margin: auto;
+	margin-top:100px;
+}
 
+#profileArea{
+	padding-bottom: 100px;
+}
+
+#register{
+	background:#3ab4a6;
+	padding:30px;
+	width:300px;
+	margin: auto;
+	margin-top:100px;
+}
 #tabs{
 	width:82%;
 	float:left;
@@ -69,15 +88,7 @@ html,body { height:100%; }
 	
 }
 
-#footer2 {
-	background:#ffab62;
-	width:100%;
-	height:100px;
-	position:absolute;
-	bottom:0;
-	left:0;
-	
-}
+
 #main_content{
 	margin-left:250px;
 

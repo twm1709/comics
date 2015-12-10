@@ -1,6 +1,6 @@
 <div>Ordered by {{predicate}} - {{getReverse()}}</div>
 <ul class="list-inline thumbs">
-  <li class="thumbnail" ng-repeat="comic in comics | orderBy:predicate:reverse | filter: getGenre()">
+  <li class="thumbnail" ng-repeat="comic in comics | orderBy:predicate:reverse | filter: getGenre() | filter: getCharacter()">
     <a href="" ng-click ="setSelectedComic(comic)">
       {{comic.name | uppercase}} #{{comic.issue}} <br>
       <img ng-src="{{comic.img}}" class="cover"/><br>

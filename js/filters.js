@@ -11,4 +11,13 @@
 	          return aux;
 	        };
 	      });
+	  app.filter('priviledge', 
+	      function() {
+	        return function(admin) {
+	          if (admin === 1)
+	          	return '(ADMIN)';
+	          else
+	          	return '(USER)';
+	        };
+	      });
 })();

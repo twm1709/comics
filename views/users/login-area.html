@@ -1,11 +1,12 @@
 <div id="login" ng-show="!registrar" ng-controller='LoginController'>
-    {{message}}
-    <form name="loginForm" ng-submit="login()">
-      <input type="text" placeholder="usuario" ng-model="user_input" required/>
-      <input type="password" placeholder="clave" ng-model="clave_input" required/>
-      <input type="submit" value="Ingresar" />
-      <a href="" ng-click="register()">Registrarse</a>
-    </form>
-  </div>
+	{{message}}
+	<form name="loginForm" ng-submit="login()">
+	  <h5><strong> Please Login to continue </strong></h5>
+	  <p><input type="text" placeholder="Username" ng-model="user_input" required/></p>
+	  <p><input type="password" placeholder="Password" ng-model="clave_input" required/></p>
+	  <p><input type="submit" value="Login" /></p>
+	  <p><a href="" ng-click="register()">Register</a></p>
+	</form>
+</div>
 
 <register-area></register-area>

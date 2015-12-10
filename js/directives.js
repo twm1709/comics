@@ -3,6 +3,8 @@
 var app = angular.module('comics-directives', []);
 
 //Directives
+  
+
   app.directive('contentArea', function(){
     return{
       restrict: 'E',
@@ -21,6 +23,12 @@ var app = angular.module('comics-directives', []);
     return{
       restrict: 'E',
       templateUrl: "views/comics/genre-list.html"
+    };
+  });
+  app.directive('characterList', function(){
+    return{
+      restrict: 'E',
+      templateUrl: "views/comics/character-list.html"
     };
   });
   app.directive('userProfile', function(){

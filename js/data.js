@@ -1,7 +1,7 @@
 //Datos de la base
   var usuarios = [
-  					{nombre: 'juan', apellido: 'gomez', user: 'admin', password: 'admin0', admin: 1}, 
-  					{nombre: 'pedro', apellido: 'ruiz', user: 'user', password: '123', admin: 0}
+  					{nombre: 'juan', apellido: 'gomez', user: 'admin', password: 'admin0', admin: 1, img: "img/interface/user.jpg"}, 
+  					{nombre: 'pedro', apellido: 'ruiz', user: 'user', password: '123', admin: 0, img: "img/interface/user.jpg"}
 				];
 
   var comics = [
@@ -12,7 +12,7 @@
             {id: 5, name: 'Tomb Of Dracula', issue: 1, genre: 'Horror', creator: ['Bram Stoker'], img: "img/comics/tomb_of_dracula.jpg", rating: 2, views: 3, summary: "Excepteur sint occaecat cupidatat non proident, ", characters: ['Dracula']},
             {id: 6, name: 'Star Trek', issue: 3, genre: 'Sci-Fi', creator: ['IDW'], img: "img/comics/Star_Trek_3.jpg", rating: 1, views: 4, summary: "sunt in culpa qui officia deserunt mollit anim id est laborum.", characters: ['Kirk', 'Spock']}
         ];
-  var genres = ['Super-Heroes', 'Horror', 'Sci-Fi'];
+  //var genres = ['Super-Heroes', 'Horror', 'Sci-Fi'];
   var characters = [
                 {name:'Spider-Man', img:""}, 
                 {name:'Superman', img:""}, 
